@@ -3,11 +3,11 @@
 [ext_resource type="Script" uid="uid://b53mkv13sbr12" path="res://scripts/level_selector.gd" id="1_aeu7d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wkdyj"]
-bg_color = Color(0, 0, 0, 0.3137255)
+bg_color = Color(0, 0, 0, 0.53333336)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
-border_color = Color(0.446777, 0.44677705, 0.44677705, 0.5647059)
+border_color = Color(0, 0, 0, 0.8392157)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 

@@ -2,6 +2,8 @@ extends LineEdit
 
 func _gui_input(event):
 	if event is InputEventKey and event.pressed and not event.echo:
+		if $"../..".level_select_shown:
+			accept_event()
 		if event.keycode == KEY_BACKSPACE:
 			accept_event()
 		elif event.keycode == KEY_TAB:

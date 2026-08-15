@@ -8,6 +8,28 @@
 [ext_resource type="Script" uid="uid://bmddksfr8nqhx" path="res://scripts/rotate_controller.gd" id="4_vm4wg"]
 [ext_resource type="PackedScene" uid="uid://b2emkececoexq" path="res://scenes/shop_scene.tscn" id="6_gkdmu"]
 [ext_resource type="PackedScene" uid="uid://t2xkd6wby2r6" path="res://scenes/reward_screen.tscn" id="7_7mjts"]
+[ext_resource type="PackedScene" uid="uid://dg6750dak1hdv" path="res://scenes/win_screen.tscn" id="9_c3vg3"]
+[ext_resource type="Script" uid="uid://dlif7oaxiibag" path="res://scripts/win_screen.gd" id="10_7t7eu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vm4wg"]
+bg_color = Color(0.2052316, 0.6985471, 0.49834716, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3vg3"]
+bg_color = Color(0.16268727, 0.56685734, 0.4010816, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t7eu"]
+bg_color = Color(0.19215687, 0.6627451, 0.47058824, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66prp"]
+bg_color = Color(0.21568628, 0.7411765, 0.5294118, 0.45882353)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_viwtt"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -22,7 +44,26 @@ offset_bottom = 648.0
 color = Color(1, 0.68125224, 0.9844572, 1)
 metadata/_edit_use_anchors_ = true
 
+[node name="View_Level" type="Button" parent="." unique_id=1038699837]
+z_index = 11
+offset_left = 1000.0
+offset_top = 576.0
+offset_right = 1104.0
+offset_bottom = 648.0
+theme_override_colors/font_color = Color(0.17254902, 0.17254902, 0.17254902, 1)
+theme_override_colors/font_focus_color = Color(0.17254902, 0.17254902, 0.17254902, 1)
+theme_override_colors/font_pressed_color = Color(0.17254902, 0.17254902, 0.17254902, 1)
+theme_override_colors/font_hover_color = Color(0.17254902, 0.17254902, 0.17254902, 1)
+theme_override_colors/font_disabled_color = Color(0.17254902, 0.17254902, 0.17254902, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_vm4wg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_c3vg3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7t7eu")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_66prp")
+text = "View Level Select Screen"
+autowrap_mode = 3
+
 [node name="GameplayScreen" parent="." unique_id=724252821 instance=ExtResource("2_cpam5")]
+visible = false
 
 [node name="Mistake_Overlay" parent="GameplayScreen" index="0" unique_id=860634844]
 visible = false
@@ -87,15 +128,8 @@ offset_right = 1152.0
 offset_bottom = 520.0
 
 [node name="ShopScene" parent="." unique_id=1063027230 instance=ExtResource("6_gkdmu")]
-visible = false
-z_index = 1
+z_index = 10
 position = Vector2(336, 56)
-
-[node name="newRound" parent="ShopScene" index="0" unique_id=1678798280]
-offset_left = 656.0
-offset_top = 488.0
-offset_right = 784.0
-offset_bottom = 560.0
 
 [node name="Buy_Button" parent="ShopScene/Rotate_1/Item_1" parent_id_path=PackedInt32Array(1063027230, 693523702) index="1" unique_id=395467926]
 visible = false
@@ -103,14 +137,27 @@ visible = false
 [node name="Buy_Button" parent="ShopScene/Rotate_2/Item_2" parent_id_path=PackedInt32Array(1063027230, 2033966009) index="1" unique_id=1832687138]
 visible = false
 
+[node name="Rotate_3" parent="ShopScene" index="2" unique_id=2094369185]
+position = Vector2(256, 280)
+
 [node name="Buy_Button" parent="ShopScene/Rotate_3/Item_3" parent_id_path=PackedInt32Array(1063027230, 911793375) index="1" unique_id=227296107]
 visible = false
 
+[node name="newRound" parent="ShopScene" index="3" unique_id=1678798280]
+z_index = -2
+offset_left = 288.0
+offset_top = 408.0
+offset_right = 416.0
+offset_bottom = 480.0
+
 [node name="Rotate_Reroll" parent="ShopScene" index="4" unique_id=1635466870]
-position = Vector2(568, 528)
+position = Vector2(160, 448)
+
+[node name="Reroll_button" parent="ShopScene/Rotate_Reroll" index="0" unique_id=2003342236]
+z_index = -1
 
 [node name="Level_Selector_Panel" parent="." unique_id=438823998 instance=ExtResource("3_frtkl")]
-visible = false
+z_index = 10
 offset_left = 288.0
 offset_top = 240.0
 offset_right = 920.0
@@ -123,10 +170,19 @@ offset_top = 120.0
 offset_right = 912.0
 offset_bottom = 656.0
 
+[node name="WinScreen" parent="." unique_id=1654764673 instance=ExtResource("9_c3vg3")]
+visible = false
+z_index = 20
+position = Vector2(384, 96)
+script = ExtResource("10_7t7eu")
+
+[connection signal="has_won" from="." to="WinScreen" method="_on_gameplay_holder_has_won"]
 [connection signal="level_select" from="." to="Level_Selector_Panel" method="_on_gameplay_holder_level_select"]
 [connection signal="new_round" from="." to="GameplayScreen" method="_on_gameplay_holder_new_round"]
 [connection signal="open_reward_screen" from="." to="Reward_Panel" method="_on_gameplay_holder_open_reward_screen"]
 [connection signal="shop_start" from="." to="ShopScene" method="_on_gameplay_holder_shop_start"]
+[connection signal="show_level_select" from="." to="Level_Selector_Panel" method="_on_gameplay_holder_show_level_select"]
+[connection signal="pressed" from="View_Level" to="." method="_on_view_level_pressed"]
 
 [editable path="GameplayScreen"]
 [editable path="Panels/Timer_bar"]

@@ -9,6 +9,7 @@ var round_3_required : int
 var round_reward : int
 var boss_this_level
 var level_num
+var shown = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -43,14 +44,19 @@ func _on_gameplay_holder_level_select() -> void:
 	$Stage_3.disabled = true
 	
 	if PlayerStats.completed_rounds % 3 == 0:
-		start_of_new_level()
+		if level_num <= 8:
+			start_level_normal()
+		elif level_num == 9:
+			trigger_win_screen()
+		else:
+			start_level_endless()
 		$Stage_1.disabled = false
 	elif PlayerStats.completed_rounds % 3 == 1:
 		$Stage_2.disabled = false
 	else:
 		$Stage_3.disabled = false
 
-func start_of_new_level():
+func start_level_normal():
 	$Level_Read.text = "Level:\n" + str(level_num) + "/8"
 	
 	boss_this_level = select_boss_effect()
@@ -64,6 +70,23 @@ func start_of_new_level():
 	$Stage_3.text = "Round 3:\n" + str(round_3_required) + " points"
 	
 	$Stage_3/Panel/Effect.text = "Boss Effect:\n" + boss_this_level.pretty_text
+
+func start_level_endless():
+	$Level_Read.text = "Level:\n" + str(level_num)
+	
+	boss_this_level = select_boss_effect()
+	
+	var endless_level_requirement = level_num * 7754
+	round_1_required = endless_level_requirement
+	round_2_required = endless_level_requirement * 1.5
+	round_3_required = endless_level_requirement * 2 * boss_this_level.score_effect
+	
+	$Stage_1.text = "Round 1:\n" + str(round_1_required) + " points"
+	$Stage_2.text = "Round 2:\n" + str(round_2_required) + " points"
+	$Stage_3.text = "Round 3:\n" + str(round_3_required) + " points"
+	
+	$Stage_3/Panel/Effect.text = "Boss Effect:\n" + boss_this_level.pretty_text
+
 
 func select_boss_effect():
 	var boss_effects = [
@@ -117,3 +140,14 @@ func select_boss_effect():
 		},
 	]
 	return boss_effects.pick_random()
+
+
+func _on_gameplay_holder_show_level_select() -> void:
+	$Stage_1.disabled = true
+	$Stage_2.disabled = true
+	$Stage_3.disabled = true
+	show()
+
+
+func trigger_win_screen():
+	pass
